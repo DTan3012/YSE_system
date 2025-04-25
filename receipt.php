@@ -1,9 +1,10 @@
 <?php
 require_once 'db.php';
-$id = isset($_GET['id']) ? intval($_GET['id']) : 0;
+$order_id = isset($_GET['id']) ? intval($_GET['id']) : 0;
 $paid = isset($_GET['paid']) ? intval($_GET['paid']) : 0;
 
-$sql = "SELECT * FROM sales_history WHERE sale_id = $id";
+$sql = "SELECT * FROM sales_history WHERE order_id = $order_id ORDER BY sale_id ASC";
+
 
 $result = mysqli_query($conn, $sql);
 

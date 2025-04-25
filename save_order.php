@@ -6,7 +6,7 @@ $data = json_decode(file_get_contents("php://input"), true);
 $cart = $data['cart'];
 $paid = intval($data['paid']); // tiền khách đưa
 
-$order_id = null;
+$order_id = time();
 $success = false;
 
 if (!empty($cart)) {
@@ -32,14 +32,10 @@ if (!empty($cart)) {
 
         // Chèn vào bảng sales_history với đúng cột
         $sql = "INSERT INTO sales_history 
-                (created_at, product_name, quantity, total, tax, paid, `change`) 
-                VALUES 
-                ('$now', '$name', $qty, $total_with_tax, $tax, $paid, $change)";
-        mysqli_query($conn, $sql);
-
-        if ($order_id === null) {
-            $order_id = mysqli_insert_id($conn);
-        }
+           (order_id, created_at, product_name, quantity, total, tax, paid, `change`)
+           VALUES 
+           ($order_id, '$now', '$name', $qty, $total_with_tax, $tax, $paid, $change)";
+    mysqli_query($conn, $sql);
     }
 
     $success = true;
